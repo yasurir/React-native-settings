@@ -11,13 +11,13 @@ import AsyncStorage from '@react-native-community/async-storage';
 
 const SHOW_NOTIFICATIONS_KEY = 'notifications';
 
-//const AGE_KEY = 'age';
+const AGE_KEY = 'age';
 
 export default class Home extends Component {
 
   state = {
     showNotifications: false,
-    //age: 18
+    age: 18
   }
 
 
@@ -47,6 +47,14 @@ export default class Home extends Component {
     } catch (e) {
       console.log(e)
     }
+    try {
+        const age = await AsyncStorage.getItem(AGE_KEY)
+        if (age !== null) {
+          this.setState({ age: JSON.parse(age) });
+        }
+      } catch (e) {
+        console.log(e)
+      }
 
 }
 
@@ -63,8 +71,17 @@ storeNotification = async (key, showNotifications) => {
   restoreDefaults = () => {
     this.storeNotification(SHOW_NOTIFICATIONS_KEY, false);
     //this.storeThemeColors(THEME_COLOR_KEY, 0);
-    //this.storeAge(AGE_KEY, 18);
+    this.storeAge(AGE_KEY, 18);
   } 
+  
+  storeAge = async (key, age) => {
+    try {
+      await AsyncStorage.setItem(AGE_KEY, JSON.stringify(age));
+      this.setState({ age });
+    } catch (e) {
+      console.log(e);
+    }
+  }
 
   render() {
    
@@ -82,6 +99,23 @@ storeNotification = async (key, showNotifications) => {
               onValueChange={(showNotifications) => {
                 this.storeNotification(SHOW_NOTIFICATIONS_KEY, showNotifications);
                 console.log(showNotifications)
+              }}
+            />
+          </View>
+        </Card>
+        <Card containerStyle={styles.card} title='Age' >
+          <View style={styles.row}>
+            <Text style={{ fontSize: 18 }} >{this.state.age}</Text>
+            <Slider
+              style={styles.slider}
+              minimumValue={18}
+              maximumValue={50}
+              
+              step={1}
+              thumbTintColor='white'
+              value={this.state.age}
+              onValueChange={(age) => {
+                this.storeAge(AGE_KEY, age);
               }}
             />
           </View>
