@@ -71,10 +71,10 @@ storeNotification = async (key, showNotifications) => {
   restoreDefaults = () => {
     this.storeNotification(SHOW_NOTIFICATIONS_KEY, false);
     //this.storeThemeColors(THEME_COLOR_KEY, 0);
-    this.storeAge(DISTANCE_KEY, 10);
+    this.storedistance(DISTANCE_KEY, 10);
   } 
   
-  storeAge = async (key, distance) => {
+  storedistance = async (key, distance) => {
     try {
       await AsyncStorage.setItem(DISTANCE_KEY, JSON.stringify(distance));
       this.setState({ distance });
@@ -115,7 +115,8 @@ storeNotification = async (key, showNotifications) => {
               thumbTintColor='white'
               value={this.state.distance}
               onValueChange={(distance) => {
-                this.storeAge(DISTANCE_KEY, distance);
+                this.storedistance(DISTANCE_KEY, distance);
+                console.log(distance);
               }}
             />
           </View>
