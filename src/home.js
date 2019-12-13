@@ -60,11 +60,11 @@ storeNotification = async (key, showNotifications) => {
   }
 
 
-  /* restoreDefaults = () => {
+  restoreDefaults = () => {
     this.storeNotification(SHOW_NOTIFICATIONS_KEY, false);
     //this.storeThemeColors(THEME_COLOR_KEY, 0);
     //this.storeAge(AGE_KEY, 18);
-  } */
+  } 
 
   render() {
    
@@ -86,6 +86,12 @@ storeNotification = async (key, showNotifications) => {
             />
           </View>
         </Card>
+        <Button
+          containerStyle={styles.restoreButtonContainer}
+          
+          onPress={this.restoreDefaults}
+          title="Reset Settings"
+        />
       
       </View>
     );
