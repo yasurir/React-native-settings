@@ -11,13 +11,13 @@ import AsyncStorage from '@react-native-community/async-storage';
 
 const SHOW_NOTIFICATIONS_KEY = 'notifications';
 
-const AGE_KEY = 'age';
+const DISTANCE_KEY = 'distance';
 
 export default class Home extends Component {
 
   state = {
     showNotifications: false,
-    age: 18
+    distance: 10
   }
 
 
@@ -48,9 +48,9 @@ export default class Home extends Component {
       console.log(e)
     }
     try {
-        const age = await AsyncStorage.getItem(AGE_KEY)
-        if (age !== null) {
-          this.setState({ age: JSON.parse(age) });
+        const distance = await AsyncStorage.getItem(DISTANCE_KEY)
+        if (distance !== null) {
+          this.setState({ distance: JSON.parse(distance) });
         }
       } catch (e) {
         console.log(e)
@@ -71,13 +71,13 @@ storeNotification = async (key, showNotifications) => {
   restoreDefaults = () => {
     this.storeNotification(SHOW_NOTIFICATIONS_KEY, false);
     //this.storeThemeColors(THEME_COLOR_KEY, 0);
-    this.storeAge(AGE_KEY, 18);
+    this.storeAge(DISTANCE_KEY, 10);
   } 
   
-  storeAge = async (key, age) => {
+  storeAge = async (key, distance) => {
     try {
-      await AsyncStorage.setItem(AGE_KEY, JSON.stringify(age));
-      this.setState({ age });
+      await AsyncStorage.setItem(DISTANCE_KEY, JSON.stringify(distance));
+      this.setState({ distance });
     } catch (e) {
       console.log(e);
     }
@@ -103,19 +103,19 @@ storeNotification = async (key, showNotifications) => {
             />
           </View>
         </Card>
-        <Card containerStyle={styles.card} title='Age' >
+        <Card containerStyle={styles.card} title='Distance (m)' >
           <View style={styles.row}>
-            <Text style={{ fontSize: 18 }} >{this.state.age}</Text>
+            <Text style={{ fontSize: 18 }} >{this.state.distance}</Text>
             <Slider
               style={styles.slider}
-              minimumValue={18}
-              maximumValue={50}
+              minimumValue={10}
+              maximumValue={1000}
               
               step={1}
               thumbTintColor='white'
-              value={this.state.age}
-              onValueChange={(age) => {
-                this.storeAge(AGE_KEY, age);
+              value={this.state.distance}
+              onValueChange={(distance) => {
+                this.storeAge(DISTANCE_KEY, distance);
               }}
             />
           </View>
